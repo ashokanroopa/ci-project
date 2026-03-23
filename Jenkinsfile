@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Triggered from GitHub!"
+                echo "The Job Triggered from GitHub!"
             }
         }
     }
