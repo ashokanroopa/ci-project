@@ -1,10 +1,18 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Build') {
+            agent any
             steps {
-                echo "The Job Triggered from GitHub!"
+                echo "Stage running on ANY agent"
+            }
+        }
+
+        stage('Test') {
+            agent any
+            steps {
+                echo "Another stage running"
             }
         }
     }
