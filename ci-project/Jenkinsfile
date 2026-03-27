@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo "Building version ${params.VERSION}"
+                echo "Building the version ${params.VERSION}"
                 sh 'bash app.sh'
             }
         }
