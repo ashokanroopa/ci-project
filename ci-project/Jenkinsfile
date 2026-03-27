@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'prod2' }
+    agent { label 'linux' }
 
     parameters {
         choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Select environment')
@@ -13,24 +13,38 @@ pipeline {
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                echo "Checking out code..."
+            }
+        }
+
         stage('Build') {
             steps {
-                echo "Building the version ${params.VERSION}"
-                sh 'bash app.sh'
+                echo "Building version ${params.VERSION}"
+                sh '''
+                pwd
+                ls -l
+                bash project/app.sh
+                '''
             }
         }
 
         stage('Test') {
             steps {
                 echo "Testing in ${params.ENV}"
-                sh 'bash test.sh'
+                sh '''
+                pwd
+                ls -l
+                bash project/test.sh
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deploying version ${params.VERSION} to ${params.ENV}"
-                sh 'echo Deploying application...'
+                sh 'echo "Deploying application..."'
             }
         }
     }
@@ -38,8 +52,12 @@ pipeline {
     post {
         success {
             echo "Build Successful"
-            archiveArtifacts artifacts: '*.sh', fingerprint: true
+            archiveArtifacts artifacts: 'project/*.sh', fingerprint: true
             build job: 'freestyle-demo'
+        }
+
+        failure {
+            echo "Build Failed - Check logs"
         }
 
         always {
