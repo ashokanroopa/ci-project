@@ -1,2 +1,2 @@
-echo "Building application"
+echo "Building the application"
 
