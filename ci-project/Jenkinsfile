@@ -52,7 +52,7 @@ pipeline {
     post {
         success {
             echo "Build Successful"
-            archiveArtifacts artifacts: 'project/*.sh', fingerprint: true
+            archiveArtifacts artifacts: 'ci-project/*.sh', fingerprint: true
             build job: 'freestyle-demo'
         }
 
